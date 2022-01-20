@@ -17,7 +17,6 @@ const api = {
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
-  const [inProp, setInProp] = useState(false);
 
   const search = (e) => {
     if (e.key === "Enter") {
@@ -30,6 +29,19 @@ function App() {
           setQuery("");
         });
     }
+  };
+
+  const searchIcon = (e) => {
+    e.preventDefault();
+    if (query.length === 0) return;
+    fetch(
+      `${api.base}/forecast?q=${query}&units=metric&cnt=7&lang=ro&appid=${api.key}`
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        setWeather(result);
+        setQuery("");
+      });
   };
 
   const dateBuilder = (d) => {
@@ -75,7 +87,10 @@ function App() {
           placeholder="Search a city..."
           className="px-3 border-none bg-[#29323c] text-white outline-none rounded-md placeholder:text-gray-300 p-1"
         />
-        <div className="flex items-center bg-[#035B95] text-gray-200 px-4 py-2 rounded-lg">
+        <div
+          onClick={searchIcon}
+          className="flex items-center bg-[#035B95] text-gray-200 px-4 py-2 rounded-lg cursor-pointer"
+        >
           <FontAwesomeIcon icon={faSearch} size="1x" />
         </div>
       </div>
@@ -85,7 +100,7 @@ function App() {
             <FontAwesomeIcon icon={faLocationArrow} size="1x" />
           </div>
           {typeof weather.list !== "undefined" ? (
-            <h4 className="text-2xl">
+            <h4 className="text-2xl fade-up">
               {weather.city.name}, {weather.city.country}
             </h4>
           ) : (
