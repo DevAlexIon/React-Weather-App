@@ -18,7 +18,7 @@ const api = {
 
 function App() {
   const [query, setQuery] = useState("");
-  const [weather, setWeather] = useState("");
+  const [weather, setWeather] = useState([]);
 
   const search = (e) => {
     if (e.key === "Enter") {
