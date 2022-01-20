@@ -44,6 +44,28 @@ function App() {
       });
   };
 
+  const faren = () => {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=Br%C4%83ila&cnt=7&units=imperial&lang=ro&appid=183c4c856a1cee21766dcdd7dc2fd9ea`
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        setWeather(result);
+        setQuery("");
+      });
+  };
+
+  const celsius = () => {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?q=Br%C4%83ila&cnt=7&units=metric&lang=ro&appid=183c4c856a1cee21766dcdd7dc2fd9ea`
+    )
+      .then((res) => res.json())
+      .then((result) => {
+        setWeather(result);
+        setQuery("");
+      });
+  };
+
   const dateBuilder = (d) => {
     let days = [
       "Sunday",
@@ -76,7 +98,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen background font-Lato">
+    <div className="min-h-screen   background font-Lato">
       {/* Search */}
       <div className="flex items-center justify-center space-x-5 py-5">
         <input
@@ -127,10 +149,16 @@ function App() {
               {weather.list[0].weather[0].description}
             </h3>
             <div className="flex items-center justify-center space-x-32 my-2">
-              <button className="bg-[#190061] py-2 px-3 rounded-lg font-bold">
+              <button
+                onClick={celsius}
+                className="bg-[#190061] py-2 px-3 rounded-lg font-bold active:bg-[#8E54E9] focus:bg-[#8E54E9]"
+              >
                 °C
               </button>
-              <button className="bg-[#8E54E9] py-2 px-3 rounded-lg font-bold">
+              <button
+                onClick={faren}
+                className="bg-[#190061] py-2 px-3 rounded-lg font-bold active:bg-[#8E54E9] focus:bg-[#8E54E9]"
+              >
                 °F
               </button>
             </div>
