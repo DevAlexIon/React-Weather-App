@@ -23,13 +23,12 @@ function App() {
   const search = (e) => {
     if (e.key === "Enter") {
       fetch(
-        `${api.base}/forecast?q=${query}&units=metric&cnt=2&lang=ro&appid=${api.key}`
+        `${api.base}/forecast?q=${query}&units=metric&cnt=7&lang=ro&appid=${api.key}`
       )
         .then((res) => res.json())
         .then((result) => {
           setWeather(result);
           setQuery("");
-          console.log(result);
         });
     }
   };
@@ -46,10 +45,8 @@ function App() {
     ];
 
     let day = days[d.getDay()];
-    let nextday = days[d.getDay() + 1];
-
     let time = d.getHours() + ":" + d.getMinutes();
-    return `${day}, ${time} , ${nextday}`;
+    return `${day}, ${time}`;
   };
 
   const nextDay = (nd) => {
@@ -63,8 +60,8 @@ function App() {
       "Saturday",
     ];
 
-    let nextday = days[nd.getDay() + 1];
-    return nextday;
+    let tomorrow = days[nd.getDay() + 1];
+    return tomorrow;
   };
 
   return (
@@ -105,7 +102,7 @@ function App() {
         {typeof weather.list !== "undefined" ? (
           <div className="">
             <div className="max-w-xs mx-auto bg-gradient-to-b from-[#4389A2] to-[#5C258D] flex flex-col items-center justify-center text-white rounded-2xl">
-              {weather < 10 ? (
+              {weather.list[0].main.temp < 10 ? (
                 <img src={Test} className="w-28 h-28" alt="" />
               ) : (
                 <img src={Sunny} className="w-24 h-24 mt-5" alt="" />
@@ -169,8 +166,8 @@ function App() {
                 className="w-8 h-8"
               />
               <p>
-                {weather.list[1].main.temp_min} /{" "}
-                {weather.list[1].main.temp_max}
+                {Math.round(weather.list[1].main.temp_min)} °C /{" "}
+                {Math.round(weather.list[1].main.temp_max)} °C
               </p>
             </div>
             <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
@@ -181,8 +178,8 @@ function App() {
                 className="w-8 h-8"
               />
               <p>
-                {weather.list[0].main.temp_min} /{" "}
-                {weather.list[0].main.temp_max}
+                {Math.round(weather.list[2].main.temp_min)} °C /{" "}
+                {Math.round(weather.list[2].main.temp_max)} °C
               </p>
             </div>
             <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
@@ -193,8 +190,8 @@ function App() {
                 className="w-8 h-8"
               />
               <p>
-                {weather.list[0].main.temp_min} /{" "}
-                {weather.list[0].main.temp_max}
+                {Math.round(weather.list[3].main.temp_min)} °C /{" "}
+                {Math.round(weather.list[3].main.temp_max)} °C
               </p>
             </div>
             <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
@@ -205,8 +202,8 @@ function App() {
                 className="w-8 h-8"
               />
               <p>
-                {weather.list[0].main.temp_min} /{" "}
-                {weather.list[0].main.temp_max}
+                {Math.round(weather.list[4].main.temp_min)} °C /{" "}
+                {Math.round(weather.list[4].main.temp_max)} °C
               </p>
             </div>
             <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
@@ -217,8 +214,8 @@ function App() {
                 className="w-8 h-8"
               />
               <p>
-                {weather.list[0].main.temp_min} /{" "}
-                {weather.list[0].main.temp_max}
+                {Math.round(weather.list[5].main.temp_min)} °C /{" "}
+                {Math.round(weather.list[5].main.temp_max)} °C
               </p>
             </div>
             <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
@@ -229,8 +226,8 @@ function App() {
                 className="w-8 h-8"
               />
               <p>
-                {weather.list[0].main.temp_min} /{" "}
-                {weather.list[0].main.temp_max}
+                {Math.round(weather.list[6].main.temp_min)} °C /{" "}
+                {Math.round(weather.list[6].main.temp_max)} °C
               </p>
             </div>
           </div>
