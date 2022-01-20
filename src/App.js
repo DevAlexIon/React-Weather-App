@@ -7,8 +7,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import Sunny from "./img/sunny-removebg.png";
-import Clouds from "./img/clouds.png";
-import Rain from "./img/rain.png";
 import Test from "./img/test.png";
 
 const api = {
@@ -19,6 +17,7 @@ const api = {
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
+  const [inProp, setInProp] = useState(false);
 
   const search = (e) => {
     if (e.key === "Enter") {
@@ -96,40 +95,38 @@ function App() {
         <p className="my-5 text-xl">{dateBuilder(new Date())}</p>
       </div>
 
-      {/* Results of the search */}
-      <div className="">
-        {/* First box */}
-        {typeof weather.list !== "undefined" ? (
-          <div className="">
-            <div className="max-w-xs mx-auto bg-gradient-to-b from-[#4389A2] to-[#5C258D] flex flex-col items-center justify-center text-white rounded-2xl">
-              {weather.list[0].main.temp < 10 ? (
-                <img src={Test} className="w-28 h-28" alt="" />
-              ) : (
-                <img src={Sunny} className="w-24 h-24 mt-5" alt="" />
-              )}
-              <h1 className="text-5xl py-5 font-bold">
-                {Math.round(weather.list[0].main.temp)} °C
-              </h1>
-              <h3 className="text-2xl text-gray-400 capitalize font-bold">
-                {weather.list[0].weather[0].description}
-              </h3>
-              <div className="flex items-center justify-center space-x-32 my-2">
-                <button className="bg-[#190061] py-2 px-3 rounded-lg font-bold">
-                  °C
-                </button>
-                <button className="bg-[#8E54E9] py-2 px-3 rounded-lg font-bold">
-                  °F
-                </button>
-              </div>
+      {/* First box from results */}
+
+      {typeof weather.list !== "undefined" ? (
+        <div className="fade-up">
+          <div className="max-w-xs mx-auto bg-gradient-to-b from-[#4389A2] to-[#5C258D] flex flex-col items-center justify-center text-white rounded-2xl">
+            {weather.list[0].main.temp < 10 ? (
+              <img src={Test} className="w-28 h-28" alt="" />
+            ) : (
+              <img src={Sunny} className="w-24 h-24 mt-5" alt="" />
+            )}
+            <h1 className="text-5xl py-5 font-bold">
+              {Math.round(weather.list[0].main.temp)} °C
+            </h1>
+            <h3 className="text-2xl text-gray-400 capitalize font-bold">
+              {weather.list[0].weather[0].description}
+            </h3>
+            <div className="flex items-center justify-center space-x-32 my-2">
+              <button className="bg-[#190061] py-2 px-3 rounded-lg font-bold">
+                °C
+              </button>
+              <button className="bg-[#8E54E9] py-2 px-3 rounded-lg font-bold">
+                °F
+              </button>
             </div>
           </div>
-        ) : (
-          ""
-        )}
-      </div>
+        </div>
+      ) : (
+        ""
+      )}
       {/* Humidity and Wind */}
       {typeof weather.list !== "undefined" ? (
-        <div>
+        <div className="fade-up-2">
           <div className="flex items-center font-bold py-4 justify-center max-w-xs mx-auto bg-[#0E0E52] mt-5 rounded-2xl space-x-28 text-white">
             {/* Humidity */}
             <div className="flex flex-col items-center">
@@ -137,7 +134,7 @@ function App() {
                 <FontAwesomeIcon icon={faTint} size="1x" className="mr-2" />
                 {weather.list[0].main.humidity}%
               </h1>
-              <h3 className="text-gray-400">Humidity</h3>
+              <h3 className="text-gray-400">Umiditate</h3>
             </div>
             {/* Wind */}
             <div className="flex flex-col items-center">
@@ -145,7 +142,7 @@ function App() {
                 <FontAwesomeIcon icon={faWind} size="1x" className="mr-2" />
                 {weather.list[0].wind.speed} km/h
               </h1>
-              <h3 className="text-gray-400">Wind</h3>
+              <h3 className="text-gray-400">Vânt</h3>
             </div>
           </div>
         </div>
@@ -155,10 +152,10 @@ function App() {
 
       {/* Next Days Wather */}
       {typeof weather.list !== "undefined" ? (
-        <div>
+        <div className="fade-up-3">
           <div className="grid grid-cols-3 gap-5 text-center max-w-xs mx-auto mt-5 pb-5">
             {/* first card */}
-            <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
+            <div className="bg-[#08BDBD] text-white font-bold flex flex-col justify-center items-center rounded-2xl py-2">
               <h1>{nextDay(new Date())}</h1>
               <img
                 src={`https://openweathermap.org/img/w/${weather.list[0].weather[0].icon}.png`}
@@ -170,7 +167,7 @@ function App() {
                 {Math.round(weather.list[1].main.temp_max)} °C
               </p>
             </div>
-            <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
+            <div className="bg-[#0E34A0] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
               <h1>TUE</h1>
               <img
                 src={`https://openweathermap.org/img/w/${weather.list[0].weather[0].icon}.png`}
@@ -182,7 +179,7 @@ function App() {
                 {Math.round(weather.list[2].main.temp_max)} °C
               </p>
             </div>
-            <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
+            <div className="bg-[#08BDBD] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
               <h1>WED</h1>
               <img
                 src={`https://openweathermap.org/img/w/${weather.list[0].weather[0].icon}.png`}
@@ -194,7 +191,7 @@ function App() {
                 {Math.round(weather.list[3].main.temp_max)} °C
               </p>
             </div>
-            <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
+            <div className="bg-[#0E34A0] text-white font-bold flex flex-col justify-center items-center rounded-2xl py-2">
               <h1>THU</h1>
               <img
                 src={`https://openweathermap.org/img/w/${weather.list[0].weather[0].icon}.png`}
@@ -206,7 +203,7 @@ function App() {
                 {Math.round(weather.list[4].main.temp_max)} °C
               </p>
             </div>
-            <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
+            <div className="bg-[#08BDBD] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
               <h1>FRI</h1>
               <img
                 src={`https://openweathermap.org/img/w/${weather.list[0].weather[0].icon}.png`}
@@ -218,7 +215,7 @@ function App() {
                 {Math.round(weather.list[5].main.temp_max)} °C
               </p>
             </div>
-            <div className="bg-[#7E3F8F] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
+            <div className="bg-[#0E34A0] text-white font-bold flex flex-col justify-center items-center rounded-2xl">
               <h1>SAT</h1>
               <img
                 src={`https://openweathermap.org/img/w/${weather.list[0].weather[0].icon}.png`}
