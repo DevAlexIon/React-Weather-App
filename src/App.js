@@ -17,6 +17,8 @@ const api = {
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
+  const [active, setActive] = useState(true);
+  const [active2, setActive2] = useState(false);
 
   const search = (e) => {
     if (e.key === "Enter") {
@@ -24,10 +26,7 @@ function App() {
         `${api.base}/forecast?q=${query}&units=metric&cnt=7&lang=ro&appid=${api.key}`
       )
         .then((res) => res.json())
-        .then((result) => {
-          setWeather(result);
-          setQuery("");
-        });
+        .then((result) => setWeather(result));
     }
   };
 
@@ -38,32 +37,27 @@ function App() {
       `${api.base}/forecast?q=${query}&units=metric&cnt=7&lang=ro&appid=${api.key}`
     )
       .then((res) => res.json())
-      .then((result) => {
-        setWeather(result);
-        setQuery("");
-      });
+      .then((result) => setWeather(result));
   };
 
   const faren = () => {
     fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=Br%C4%83ila&cnt=7&units=imperial&lang=ro&appid=183c4c856a1cee21766dcdd7dc2fd9ea`
+      `${api.base}/forecast?q=${query}&units=imperial&lang=ro&appid=${api.key}`
     )
       .then((res) => res.json())
-      .then((result) => {
-        setWeather(result);
-        setQuery("");
-      });
+      .then((result) => setWeather(result));
+    setActive(false);
+    setActive2(true);
   };
 
   const celsius = () => {
     fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=Br%C4%83ila&cnt=7&units=metric&lang=ro&appid=183c4c856a1cee21766dcdd7dc2fd9ea`
+      `${api.base}/forecast?q=${query}&units=metric&lang=ro&appid=${api.key}`
     )
       .then((res) => res.json())
-      .then((result) => {
-        setWeather(result);
-        setQuery("");
-      });
+      .then((result) => setWeather(result));
+    setActive(true);
+    setActive2(false);
   };
 
   const dateBuilder = (d) => {
@@ -151,13 +145,18 @@ function App() {
             <div className="flex items-center justify-center space-x-32 my-2">
               <button
                 onClick={celsius}
-                className="bg-[#190061] py-2 px-3 rounded-lg font-bold active:bg-[#8E54E9] focus:bg-[#8E54E9]"
+                className={`${
+                  active && "bg-[#8E54E9]"
+                }  bg-[#190061] py-2 px-3 rounded-lg font-bold`}
               >
                 °C
               </button>
+
               <button
                 onClick={faren}
-                className="bg-[#190061] py-2 px-3 rounded-lg font-bold active:bg-[#8E54E9] focus:bg-[#8E54E9]"
+                className={` ${
+                  active2 && "bg-[#8E54E9]"
+                } bg-[#190061] py-2 px-3 rounded-lg font-bold `}
               >
                 °F
               </button>
